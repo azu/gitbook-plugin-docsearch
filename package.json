@@ -18,6 +18,10 @@
     "docsearch"
   ],
   "main": "index.js",
+  "files":[
+    "index.js",
+    "assets"
+  ],
   "maintainers": [
     {
       "email": "eugene@uilicious.com",
@@ -29,6 +33,5 @@
     "url": "https://github.com/uilicious/gitbook-plugin-docsearch.git"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   }
 }
