@@ -1,6 +1,6 @@
 {
   "name": "@azu/gitbook-plugin-docsearch",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "_location": "/gitbook-plugin-docsearch",
   "author": {
     "name": "Uilicious Private Limited"
@@ -18,7 +18,7 @@
     "docsearch"
   ],
   "main": "index.js",
-  "files":[
+  "files": [
     "index.js",
     "assets"
   ],
@@ -32,6 +32,5 @@
     "type": "git",
     "url": "https://github.com/uilicious/gitbook-plugin-docsearch.git"
   },
-  "scripts": {
-  }
+  "scripts": {}
 }
