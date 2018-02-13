@@ -1,5 +1,5 @@
 {
-  "name": "gitbook-plugin-docsearch",
+  "name": "@azu/gitbook-plugin-docsearch",
   "version": "1.1.0",
   "_location": "/gitbook-plugin-docsearch",
   "author": {

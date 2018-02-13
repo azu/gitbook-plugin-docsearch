@@ -1,9 +1,11 @@
 GitBook Plugin to add Algolia docSearch Plugin
 
+FORK VERSION.
+
 ## Installation
 
 ```
-npm install gitbook-plugin-docsearch
+npm install @azu/gitbook-plugin-docsearch
 ```
 
 ## Usage

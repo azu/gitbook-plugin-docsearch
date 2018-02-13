@@ -1,6 +1,6 @@
 var fs = require('fs');
+var path = require('path');
 var cheerio = require('cheerio');
-var url = require('url');
 
 var urls = [];
 
@@ -16,26 +16,33 @@ module.exports = {
         ]
     },
     hooks: {
-        "page": function (page) {
+        "page": function(page) {
 
-            if (this.output.name != 'website') return page;
+            if (this.output.name !== 'website') {
+                return page;
+            }
 
             var lang = this.isLanguageBook() ? this.config.values.language : '';
-            if (lang) lang = lang + '/';
+            if (lang) {
+                lang = lang + '/';
+            }
 
             var outputUrl = this.output.toURL('_book/' + lang + page.path);
-            urls.push({
-                url: outputUrl + (outputUrl.substr(-5, 5) !== '.html' ? 'index.html' : '')
-            });
+            var normalizedUrl = outputUrl + (path.extname(outputUrl) !== '.html' ? 'index.html' : '');
+            if (!urls.some(item => item.url === normalizedUrl)) {
+                urls.push({
+                    url: normalizedUrl
+                });
+            }
 
             return page;
         },
 
-        "finish": function () {
+        "finish": function() {
             var $, $el, html;
             var logo;
             var pathFile = this.options.pluginsConfig.docSearch.apiKey && this.options.pluginsConfig.docSearch.index;
-            if(pathFile){
+            if (pathFile) {
 
                 var searchBox = '<div id="book-search-input">\n' +
                     '    <input type="text" id="book-doc-search-input" placeholder="Type to search">\n' +
@@ -44,32 +51,29 @@ module.exports = {
                 if (this.options.pluginsConfig.docSearch.logo) {
 
                     if (this.options.pluginsConfig.docSearch.brandUrl) {
-                        logo = '<a href="'+this.options.pluginsConfig.docSearch.brandUrl+'">' +
-                            ' <img class="logo" src="/'+this.options.pluginsConfig.docSearch.logo+'"/>'+
+                        logo = '<a href="' + this.options.pluginsConfig.docSearch.brandUrl + '">' +
+                            ' <img class="logo" src="/' + this.options.pluginsConfig.docSearch.logo + '"/>' +
                             '</a>';
                     }
                     else {
-                        logo = '<img class="logo" src="/'+this.options.pluginsConfig.docSearch.logo+'"/>';
+                        logo = '<img class="logo" src="/' + this.options.pluginsConfig.docSearch.logo + '"/>';
                     }
                 }
 
                 urls.forEach(item => {
-                    html = fs.readFileSync(item.url, {encoding: 'utf-8'});
-                $ = cheerio.load(html);
+                    html = fs.readFileSync(item.url, { encoding: 'utf-8' });
+                    $ = cheerio.load(html);
 
-                $el = $('.book-summary');
-                $el.prepend(searchBox);
+                    if ($('#book-search-input').length === 0) {
+                        $el = $('.book-summary');
+                        $el.prepend(searchBox);
+                        if (logo) {
+                            $el.prepend(logo);
+                        }
+                    }
 
-                $el = $('.book-summary');
-                $el.prepend(logo);
-
-
-                $el = $('.summary li:first-child');
-                $el.remove();
-
-
-                fs.writeFileSync(item.url, $.root().html(), {encoding: 'utf-8'});
-            });
+                    fs.writeFileSync(item.url, $.root().html(), { encoding: 'utf-8' });
+                });
             }
 
         }
