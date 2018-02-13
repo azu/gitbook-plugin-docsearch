@@ -5,7 +5,7 @@ FORK VERSION.
 ## Installation
 
 ```
-npm install @azu/gitbook-plugin-docsearch
+npm install azu/gitbook-plugin-docsearch
 ```
 
 ## Usage
